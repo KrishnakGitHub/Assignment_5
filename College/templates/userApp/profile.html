@@ -45,8 +45,14 @@
                     		<p>User Type </p>
                     	</div>
                     	<div class="col-2">
-                    		<p><b>Employee{{user.myuser.is_employee}}</b></p>
+                    		<p><b>Employee</b></p>
                     	</div>
+                        <div class="col-2">
+                            <p>Employee Type </p>
+                        </div>
+                        <div class="col-2">
+                            <p><b>{{user.myuser.employee.Employee_Type}}</b></p>
+                        </div>
                     	{% endif %}
                     </div>
                     {% if user.myuser.is_student %}

@@ -130,8 +130,10 @@
                         </li>
                         {% endif %}
                         {% if not user.is_superuser %}
+                        {% if not user.myuser.is_employee %}
                         <li> <a class="waves-effect waves-dark" href="{% url 'ClassRoom' %}" aria-expanded="false"><i class="fa fa-user-o"></i><span class="hide-menu">My Classroom</span></a>
                         </li>
+                        {% endif %}
                         {% endif %}
                         <li> <a class="waves-effect waves-dark" href="{% url 'TimeTablelistView' %}" aria-expanded="false"><i
                                     class="fa fa-table"></i><span class="hide-menu">Time Tables</span></a>

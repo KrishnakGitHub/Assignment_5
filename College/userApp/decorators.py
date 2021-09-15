@@ -8,7 +8,7 @@ def student_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, log
     redirects to the log-in page if necessary.
     '''
     actual_decorator = user_passes_test(
-        lambda u: u.is_active and u.is_student,
+        lambda u: u.is_active and u.myuser.is_student,
         login_url=login_url,
         redirect_field_name=redirect_field_name
     )
@@ -23,7 +23,7 @@ def lecturer_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, lo
     redirects to the log-in page if necessary.
     '''
     actual_decorator = user_passes_test(
-        lambda u: u.is_active and u.is_lecturer,
+        lambda u: u.is_active and u.myuser.is_lecturer,
         login_url=login_url,
         redirect_field_name=redirect_field_name
     )

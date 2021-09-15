@@ -28,10 +28,11 @@ def profile(request,pk):
     studentfnw = ''
     if not request.user.is_superuser:
         if not request.user.myuser.is_lecturer:
-            if StudentFnW.objects.filter(student=request.user.myuser.student).exists():
-                studentfnw = StudentFnW.objects.get(student=request.user.myuser.student)
-        else:
-            studentfnw = ''    
+            if not request.user.myuser.is_employee:
+                if StudentFnW.objects.filter(student=request.user.myuser.student).exists():
+                    studentfnw = StudentFnW.objects.get(student=request.user.myuser.student)
+                else:
+                    studentfnw = ''    
     context = {'type':type,'studentfnw':studentfnw}
     return render(request, 'userApp/profile.html', context)
 

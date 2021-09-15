@@ -6,7 +6,7 @@ from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from django.views.generic.list import ListView
 
 from django.contrib.auth.decorators import login_required
-from userApp.decorators import student_required, admin_required
+from userApp.decorators import student_required, admin_required, lecturer_required
 from django.utils.decorators import method_decorator
 # Create your views here.
 @login_required
@@ -80,7 +80,7 @@ class LectureCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         kwargs['type'] = 'Assign Lecture'
-        kwargs['Leacturare'] = Leacturare.objects.all()
+        kwargs['lecture'] = Lecture.objects.all()
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):
@@ -95,6 +95,36 @@ class TimeTableCreateView(CreateView):
     def get_context_data(self, **kwargs):
         kwargs['type'] = 'Create Time Table'
         kwargs['lecture'] = Lecture.objects.all()
+        return super().get_context_data(**kwargs)
+
+    def form_valid(self, form):
+        user = form.save()
+        return redirect('home')
+
+@method_decorator([login_required], name='dispatch')
+class MyLectureCreateView(CreateView):
+    model = Lecture
+    fields = "__all__"
+    template_name = "collegeapp/mylecture_form.html"
+
+    def get_context_data(self, **kwargs):
+        kwargs['type'] = 'Get Lecture'
+        kwargs['Leacturare'] = Leacturare.objects.filter(user = self.request.user.myuser)
+        return super().get_context_data(**kwargs)
+
+    def form_valid(self, form):
+        user = form.save()
+        return redirect('MyTimeTableCreate')
+
+@method_decorator([login_required], name='dispatch')
+class MyTimeTableCreateView(CreateView):
+    model = TimeTable
+    fields = "__all__"
+    template_name = "collegeapp/mytimetable_form.html"
+
+    def get_context_data(self, **kwargs):
+        kwargs['type'] = 'Schedule Time Table'
+        kwargs['lecture'] = Lecture.objects.filter(leacturare = self.request.user.myuser.leacturare)
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):
