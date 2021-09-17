@@ -81,6 +81,7 @@ class LectureCreateView(CreateView):
     def get_context_data(self, **kwargs):
         kwargs['type'] = 'Assign Lecture'
         kwargs['lecture'] = Lecture.objects.all()
+        kwargs['Leacturare'] = Leacturare.objects.all()
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):
